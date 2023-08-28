@@ -2,7 +2,7 @@
 {
     ID = "mod_rpgr_avatar_resistances",
     Name = "RPG Rebalance - Avatar Resistances",
-    Version = "1.4.1",
+    Version = "1.4.2",
 
     function generateTooltipTableEntry( _id, _type, _icon, _text )
     {
