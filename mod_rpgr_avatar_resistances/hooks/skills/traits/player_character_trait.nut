@@ -43,7 +43,7 @@
 
         if (::RPGR_Avatar_Persistence.Mod.ModSettings.getSetting("ModifyTooltip").getValue())
         {
-            tooltipArray.append(::RPGR_Avatar_Resistances.generateTooltipTableEntry(id, type, "warning.png", "Loses persistence when more than [color=" + ::Const.UI.Color.NegativeValue + "]" + ::RPGR_Avatar_Persistence.Mod.ModSettings.getSetting("PermanentInjuryThreshold").getValue() + "[/color] permanent injuries are suffered at a time"));
+            tooltipArray.append(::RPGR_Avatar_Persistence.generateTooltipTableEntry(id, type, "warning.png", "Loses persistence when " + ::RPGR_Avatar_Persistence.retrieveThresholdWarningText()));
         }
 
         return tooltipArray;
