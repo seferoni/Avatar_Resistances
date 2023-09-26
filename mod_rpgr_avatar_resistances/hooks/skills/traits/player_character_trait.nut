@@ -36,14 +36,14 @@
             return tooltipArray;
         }
 
-        if (!::RPGR_Avatar_Persistence.isWithinInjuryThreshold(this.getContainer().getActor()))
+        if (!::RPGR_Avatar_Persistence.Persistence.isWithinInjuryThreshold(this.getContainer().getActor()))
         {
             return tooltipArray;
         }
 
-        if (::RPGR_Avatar_Persistence.Mod.ModSettings.getSetting("ModifyTooltip").getValue())
+        if (::RPGR_Avatar_Persistence.Standard.getSetting("ModifyTooltip"))
         {
-            tooltipArray.append(::RPGR_Avatar_Persistence.generateTooltipTableEntry(id, type, "warning.png", "Loses persistence when " + ::RPGR_Avatar_Persistence.retrieveThresholdWarningText()));
+            tooltipArray.append(::RPGR_Avatar_Resistances.generateTooltipTableEntry(id, type, "warning.png", "Loses persistence when " + ::RPGR_Avatar_Persistence.Persistence.getThresholdWarningText()));
         }
 
         return tooltipArray;
