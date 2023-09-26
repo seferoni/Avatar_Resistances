@@ -38,4 +38,38 @@
         ::Tactical.EventLog.log(::Const.UI.getColorizedEntityName(actor) + " fails to swallow " + ::Const.UI.getColorizedEntityName(target) + " whole");
 		return false;
     }
+
+    AP.Standard.wrap(this, "onVerifyTarget", function( _originTile, _targetTile )
+    {
+        if (!vanilla_onVerifyTarget)
+        {
+            return vanilla_onVerifyTarget;
+        }
+
+        if (!::RPGR_Avatar_Resistances.Mod.ModSettings.getSetting("SwallowImmunity").getValue())
+        {
+            return vanilla_onVerifyTarget;
+        }
+
+        if (!::RPGR_Avatar_Resistances.isWithinRosterThreshold())
+        {
+            return vanilla_onVerifyTarget;
+        }
+
+        local actor = this.getContainer().getActor();
+        local target = _targetTile.getEntity();
+
+        if (target == null)
+        {
+            return vanilla_onVerifyTarget;
+        }
+
+        if (!::RPGR_Avatar_Resistances.isActorEligible(target.getFlags()))
+        {
+            return vanilla_onVerifyTarget;
+        }
+
+        ::Tactical.EventLog.log(::Const.UI.getColorizedEntityName(actor) + " fails to swallow " + ::Const.UI.getColorizedEntityName(target) + " whole");
+		return false;
+    }, "overrideMethod")
 });
