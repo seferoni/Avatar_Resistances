@@ -1,6 +1,7 @@
+local AR = ::RPGR_Avatar_Resistances;
 ::mods_hookExactClass("skills/actives/swallow_whole_skill", function( object )
 {
-    local parentName = object.SuperName;
+    /*local parentName = object.SuperName;
 
     local oVT_nullCheck = "onVerifyTarget" in object ? object.onVerifyTarget : null;
     object.onVerifyTarget <- function( _originTile, _targetTile )
@@ -37,23 +38,23 @@
 
         ::Tactical.EventLog.log(::Const.UI.getColorizedEntityName(actor) + " fails to swallow " + ::Const.UI.getColorizedEntityName(target) + " whole");
 		return false;
-    }
+    }*/
 
-    AP.Standard.wrap(this, "onVerifyTarget", function( _originTile, _targetTile )
+    AR.Standard.wrap(object, "onVerifyTarget", function( _originalValue, _originTile, _targetTile )
     {
-        if (!vanilla_onVerifyTarget)
+        if (!_originalValue)
         {
-            return vanilla_onVerifyTarget;
+            return;
         }
 
-        if (!::RPGR_Avatar_Resistances.Mod.ModSettings.getSetting("SwallowImmunity").getValue())
+        if (!AR.Standard.getSetting("SwallowImmunity"))
         {
-            return vanilla_onVerifyTarget;
+            return;
         }
 
-        if (!::RPGR_Avatar_Resistances.isWithinRosterThreshold())
+        if (!AR.Resistances.isWithinRosterThreshold())
         {
-            return vanilla_onVerifyTarget;
+            return;
         }
 
         local actor = this.getContainer().getActor();
@@ -61,15 +62,15 @@
 
         if (target == null)
         {
-            return vanilla_onVerifyTarget;
+            return;
         }
 
-        if (!::RPGR_Avatar_Resistances.isActorEligible(target.getFlags()))
+        if (!AR.Resistances.isActorViable(target))
         {
-            return vanilla_onVerifyTarget;
+            return;
         }
 
         ::Tactical.EventLog.log(::Const.UI.getColorizedEntityName(actor) + " fails to swallow " + ::Const.UI.getColorizedEntityName(target) + " whole");
 		return false;
-    }, "overrideMethod")
+    }, "overrideReturn")
 });

@@ -1,6 +1,7 @@
+local AR = ::RPGR_Avatar_Resistances;
 ::mods_hookExactClass("skills/traits/player_character_trait", function( object )
 {
-    local parentName = object.SuperName;
+    /*local parentName = object.SuperName;
 
     local gT_nullCheck = "getTooltip" in object ? object.getTooltip : null;
     object.getTooltip <- function()
@@ -47,5 +48,52 @@
         }
 
         return tooltipArray;
-    }
+    }*/
+
+    AR.Standard.wrap(object, "getTooltip", function( ... )
+    {
+        local tooltipArray = vargv[0];
+
+        if (!AR.Standard.getSetting("ModifyTooltip"))
+        {
+            return tooltipArray;
+        }
+
+        if (!AR.Resistances.isWithinRosterThreshold())
+        {
+            return tooltipArray;
+        }
+
+        local id = 10, type = "text";
+
+        if (AR.Standard.getSetting("SwallowImmunity"))
+        {
+            tooltipArray.push(AR.generateTooltipTableEntry(id, type, "special.png", "[color=" + ::Const.UI.Color.PositiveValue + "]Cannot[/color] be swallowed whole by nachzehrers"));
+        }
+
+        tooltipArray.extend([
+            AR.generateTooltipTableEntry(id, type, "perks.png", "[color=" + ::Const.UI.Color.PositiveValue + "]" + "+" + AR.Standard.getSetting("CharmResistChance") + "[/color]% chance to resist charm effects"),
+            AR.generateTooltipTableEntry(id, type, "perks.png", "[color=" + ::Const.UI.Color.PositiveValue + "]" + "+" + AR.Standard.getSetting("SleepResistChance") + "[/color]% chance to resist sleep effects"),
+            AR.generateTooltipTableEntry(id, type, "warning.png", "Loses resistances when the company grows above [color=" + ::Const.UI.Color.NegativeValue + "]" + AR.Standard.getSetting("RosterMax") + "[/color] men")
+        ]);
+
+        if (!AR.Internal.APFound)
+        {
+            return tooltipArray;
+        }
+
+        local AP = ::RPGR_Avatar_Persistence;
+
+        if (!AP.Persistence.isWithinInjuryThreshold(this.getContainer().getActor()))
+        {
+            return tooltipArray;
+        }
+
+        if (AP.Standard.getSetting("ModifyTooltip"))
+        {
+            tooltipArray.append(AR.Standard.generateTooltipTableEntry(id, type, "warning.png", "Loses persistence when " + AP.Persistence.getThresholdWarningText()));
+        }
+
+        return tooltipArray;
+    }, "overrideReturn");
 });

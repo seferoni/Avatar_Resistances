@@ -1,7 +1,7 @@
 local AR = ::RPGR_Avatar_Resistances;
 ::mods_hookExactClass("skills/actives/sleep_skill", function( object )
 {
-    local parentName = object.SuperName;
+    /*local parentName = object.SuperName;
 
     local oDE_nullCheck = "onDelayedEffect" in object ? object.onDelayedEffect : null;
     object.onDelayedEffect <- function( _tag )
@@ -31,30 +31,30 @@ local AR = ::RPGR_Avatar_Resistances;
         }
 
         return vanilla_onDelayedEffect(_tag);
-    }
+    }*/
 
-    AR.Standard.wrap(this, "onDelayedEffect", function( _tag )
+    AR.Standard.wrap(object, "onDelayedEffect", function( _tag )
     {
         if (!AR.Resistances.isWithinRosterThreshold())
         {
-            return null;
+            return;
         }
 
         if (::Math.rand(1, 100) > AR.Standard.getSetting("SleepResistChance"))
         {
-            return null;
+            return;
         }
 
         local target = _tag.TargetTile.getEntity();
 
         if (target == null)
         {
-            return null;
+            return;
         }
 
-        if (!AR.isActorEligible(target.getFlags()))
+        if (!AR.Resistances.isActorViable(target))
         {
-            return null;
+            return;
         }
 
         if (!_tag.User.isHiddenToPlayer() && !target.isHiddenToPlayer())
@@ -63,6 +63,6 @@ local AR = ::RPGR_Avatar_Resistances;
             return AR.Defaults.TERMINATE;
         }
 
-        return null;
+        return;
     }, "overrideMethod");
 });

@@ -1,7 +1,7 @@
 local AR = ::RPGR_Avatar_Resistances;
 ::mods_hookExactClass("skills/actives/charm_skill", function( object )
 {
-    local parentName = object.SuperName;
+    /*local parentName = object.SuperName;
 
     local oDE_nullCheck = "onDelayedEffect" in object ? object.onDelayedEffect : null;
     object.onDelayedEffect <- function( _tag )
@@ -42,9 +42,9 @@ local AR = ::RPGR_Avatar_Resistances;
 
         }.bindenv(this), null);
         return false;
-    }
+    }*/
 
-    AR.Standard.wrap(this, "onDelayedEffect", function( _tag )
+    AR.Standard.wrap(object, "onDelayedEffect", function( _tag )
     {
         if (!AR.Resistances.isWithinRosterThreshold())
         {
@@ -64,7 +64,7 @@ local AR = ::RPGR_Avatar_Resistances;
             return null;
         }
 
-        if (!AR.Resistances.isActorEligible(target.getFlags()))
+        if (!AR.Resistances.isActorViable(target))
         {
             return null;
         }
