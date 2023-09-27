@@ -30,6 +30,7 @@ local AR = ::RPGR_Avatar_Resistances;
     }
 
     AR.Mod <- ::MSU.Class.Mod(AR.ID, AR.Version, AR.Name);
+
     local pageGeneral = AR.Mod.ModSettings.addPage("General");
 
     local charmResistChance = pageGeneral.addRangeSetting("CharmResistChance", 100, 0, 100, 1, "Charm Resist Chance");

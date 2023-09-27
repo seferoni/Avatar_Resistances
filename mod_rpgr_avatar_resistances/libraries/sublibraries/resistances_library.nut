@@ -8,6 +8,6 @@ AR.Resistances <-
 
     function isWithinRosterThreshold()
     {
-        return ::World.getPlayerRoster().getAll().len() <= this.Mod.ModSettings.getSetting("RosterMax").getValue();
+        return ::World.getPlayerRoster().getAll().len() <= AR.Standard.getSetting("RosterMax");
     }
 }

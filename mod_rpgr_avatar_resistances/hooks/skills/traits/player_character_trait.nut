@@ -1,58 +1,9 @@
 local AR = ::RPGR_Avatar_Resistances;
 ::mods_hookExactClass("skills/traits/player_character_trait", function( object )
 {
-    /*local parentName = object.SuperName;
-
-    local gT_nullCheck = "getTooltip" in object ? object.getTooltip : null;
-    object.getTooltip <- function()
-    {
-        local tooltipArray = gT_nullCheck == null ? this[parentName].getTooltip() : gT_nullCheck();
-
-        if (!::RPGR_Avatar_Resistances.Mod.ModSettings.getSetting("ModifyTooltip").getValue())
-        {
-            return tooltipArray;
-        }
-
-        if (!::RPGR_Avatar_Resistances.isWithinRosterThreshold())
-        {
-            return tooltipArray;
-        }
-
-        local id = 10;
-        local type = "text";
-
-        if (::RPGR_Avatar_Resistances.Mod.ModSettings.getSetting("SwallowImmunity").getValue())
-        {
-            tooltipArray.append(::RPGR_Avatar_Resistances.generateTooltipTableEntry(id, type, "special.png", "[color=" + ::Const.UI.Color.PositiveValue + "]Cannot[/color] be swallowed whole by nachzehrers"));
-        }
-
-        tooltipArray.extend([
-            ::RPGR_Avatar_Resistances.generateTooltipTableEntry(id, type, "perks.png", "[color=" + ::Const.UI.Color.PositiveValue + "]" + "+" + ::RPGR_Avatar_Resistances.Mod.ModSettings.getSetting("CharmResistChance").getValue() + "[/color]% chance to resist charm effects"),
-            ::RPGR_Avatar_Resistances.generateTooltipTableEntry(id, type, "perks.png", "[color=" + ::Const.UI.Color.PositiveValue + "]" + "+" + ::RPGR_Avatar_Resistances.Mod.ModSettings.getSetting("SleepResistChance").getValue() + "[/color]% chance to resist sleep effects"),
-            ::RPGR_Avatar_Resistances.generateTooltipTableEntry(id, type, "warning.png", "Loses resistances when the company grows above [color=" + ::Const.UI.Color.NegativeValue + "]" + ::RPGR_Avatar_Resistances.Mod.ModSettings.getSetting("RosterMax").getValue() + "[/color] men")
-        ]);
-
-        if (!::RPGR_AP_ModuleFound)
-        {
-            return tooltipArray;
-        }
-
-        if (!::RPGR_Avatar_Persistence.Persistence.isWithinInjuryThreshold(this.getContainer().getActor()))
-        {
-            return tooltipArray;
-        }
-
-        if (::RPGR_Avatar_Persistence.Standard.getSetting("ModifyTooltip"))
-        {
-            tooltipArray.append(::RPGR_Avatar_Resistances.generateTooltipTableEntry(id, type, "warning.png", "Loses persistence when " + ::RPGR_Avatar_Persistence.Persistence.getThresholdWarningText()));
-        }
-
-        return tooltipArray;
-    }*/
-
     AR.Standard.wrap(object, "getTooltip", function( ... )
     {
-        local tooltipArray = vargv[0];
+        local tooltipArray = AR.Standard.getOriginalResult(vargv);
 
         if (!AR.Standard.getSetting("ModifyTooltip"))
         {
@@ -68,13 +19,13 @@ local AR = ::RPGR_Avatar_Resistances;
 
         if (AR.Standard.getSetting("SwallowImmunity"))
         {
-            tooltipArray.push(AR.generateTooltipTableEntry(id, type, "special.png", "[color=" + ::Const.UI.Color.PositiveValue + "]Cannot[/color] be swallowed whole by nachzehrers"));
+            tooltipArray.push(AR.Standard.makeTooltip(id, type, "special.png", format("%s be swallowed whole by nachzehrers", AP.Standard.colorWrap("Cannot", "PositiveValue"))))
         }
 
         tooltipArray.extend([
-            AR.generateTooltipTableEntry(id, type, "perks.png", "[color=" + ::Const.UI.Color.PositiveValue + "]" + "+" + AR.Standard.getSetting("CharmResistChance") + "[/color]% chance to resist charm effects"),
-            AR.generateTooltipTableEntry(id, type, "perks.png", "[color=" + ::Const.UI.Color.PositiveValue + "]" + "+" + AR.Standard.getSetting("SleepResistChance") + "[/color]% chance to resist sleep effects"),
-            AR.generateTooltipTableEntry(id, type, "warning.png", "Loses resistances when the company grows above [color=" + ::Const.UI.Color.NegativeValue + "]" + AR.Standard.getSetting("RosterMax") + "[/color] men")
+            AR.Standard.makeTooltip(id, type, "perks.png", format("%s%% chance to resist charm effects", AR.Standard.colourWrap(format("+ %i", AR.Standard.getSetting("CharmResistChance")), "PositiveValue"))),
+            AR.Standard.makeTooltip(id, type, "perks.png", format("%s%% chance to resist sleep effects", AR.Standard.colourWrap(format("+ %i", AR.Standard.getSetting("SleepResistChance")), "PositiveValue"))),
+            AR.Standard.makeTooltip(id, type, "warning.png", format("Loses resistances when the company grows above %s men", AR.Standard.colourWrap(AR.Standard.getSetting("RosterMax"), "NegativeValue")))
         ]);
 
         if (!AR.Internal.APFound)
@@ -91,7 +42,7 @@ local AR = ::RPGR_Avatar_Resistances;
 
         if (AP.Standard.getSetting("ModifyTooltip"))
         {
-            tooltipArray.append(AR.Standard.generateTooltipTableEntry(id, type, "warning.png", "Loses persistence when " + AP.Persistence.getThresholdWarningText()));
+            tooltipArray.append(AR.Standard.makeTooltip(id, type, "warning.png", format("Loses persistence when %s", AP.Persistence.getThresholdWarningText())));
         }
 
         return tooltipArray;

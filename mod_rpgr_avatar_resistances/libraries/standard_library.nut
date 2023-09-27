@@ -13,17 +13,14 @@ AR.Standard <-
         return naiveMethod;
     }
 
-    function generateTooltipTableEntry( _id, _type, _icon, _text )
+    function colourWrap( _string, _colour )
     {
-        local tableEntry =
-        {
-            id = _id,
-            type = _type,
-            icon = "ui/icons/" + _icon,
-            text = _text
-        }
+        return format("[color=%x] %s [/color]", ::Const.UI.Color[_colour], _string)
+    }
 
-        return tableEntry;
+    function getOriginalResult( _argumentsArray )
+    {
+        return _argumentsArray[0];
     }
 
     function getSetting( _settingID )
@@ -63,6 +60,19 @@ AR.Standard <-
         }
 
         ::logInfo(format("[Avatar Persistence] %s", _string));
+    }
+
+    function makeTooltip( _id, _type, _icon, _text )
+    {
+        local tableEntry =
+        {
+            id = _id,
+            type = _type,
+            icon = format("ui/icons/%s", _icon),
+            text = _text
+        }
+
+        return tableEntry;
     }
 
     function overrideArguments( _object, _function, _originalMethod, _argumentsArray )
