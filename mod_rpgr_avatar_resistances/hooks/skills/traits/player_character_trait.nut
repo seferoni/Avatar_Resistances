@@ -19,12 +19,12 @@ local AR = ::RPGR_Avatar_Resistances;
 
         if (AR.Standard.getSetting("SwallowImmunity"))
         {
-            tooltipArray.push(AR.Standard.makeTooltip(id, type, "special.png", format("%s be swallowed whole by nachzehrers", AP.Standard.colorWrap("Cannot", "PositiveValue"))))
+            tooltipArray.push(AR.Standard.makeTooltip(id, type, "special.png", format("%s be swallowed whole by nachzehrers", AR.Standard.colourWrap("Cannot", "PositiveValue"))))
         }
 
         tooltipArray.extend([
-            AR.Standard.makeTooltip(id, type, "perks.png", format("%s%% chance to resist charm effects", AR.Standard.colourWrap(format("+ %i", AR.Standard.getSetting("CharmResistChance")), "PositiveValue"))),
-            AR.Standard.makeTooltip(id, type, "perks.png", format("%s%% chance to resist sleep effects", AR.Standard.colourWrap(format("+ %i", AR.Standard.getSetting("SleepResistChance")), "PositiveValue"))),
+            AR.Standard.makeTooltip(id, type, "perks.png", format("%s%% chance to resist charm effects", AR.Standard.colourWrap(format("+%i", AR.Standard.getSetting("CharmResistChance")), "PositiveValue"))),
+            AR.Standard.makeTooltip(id, type, "perks.png", format("%s%% chance to resist sleep effects", AR.Standard.colourWrap(format("+%i", AR.Standard.getSetting("SleepResistChance")), "PositiveValue"))),
             AR.Standard.makeTooltip(id, type, "warning.png", format("Loses resistances when the company grows above %s men", AR.Standard.colourWrap(AR.Standard.getSetting("RosterMax"), "NegativeValue")))
         ]);
 

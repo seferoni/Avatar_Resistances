@@ -13,9 +13,16 @@ AR.Standard <-
         return naiveMethod;
     }
 
-    function colourWrap( _string, _colour )
+    function colourWrap( _text, _colour )
     {
-        return format("[color=%x] %s [/color]", ::Const.UI.Color[_colour], _string)
+        local string = _text;
+
+        if (typeof _text != "string")
+        {
+            string = _text.tostring();
+        }
+
+        return format("[color=%s] %s [/color]", ::Const.UI.Color[_colour], string)
     }
 
     function getOriginalResult( _argumentsArray )
@@ -32,7 +39,7 @@ AR.Standard <-
 
         if (!(_settingID in AR.Defaults))
         {
-            this.logWrapper(format("Invalid settingID %s passed to getSetting, returning null.", _settingID), true);
+            this.log(format("Invalid settingID %s passed to getSetting, returning null.", _settingID), true);
             return null;
         }
 
@@ -47,7 +54,7 @@ AR.Standard <-
         }
     }
 
-    function logWrapper( _string, _isError = false )
+    function log( _string, _isError = false )
     {
         if (_isError)
         {
