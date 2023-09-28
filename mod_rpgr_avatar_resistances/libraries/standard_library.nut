@@ -123,15 +123,40 @@ AR.Standard <-
         return array;
     }
 
+    function validateParameters( _originalFunction, _newParameters )
+    {
+        local oldParameters = _originalFunction.getInfos().parameters;
+
+        if (oldParameters[oldParameters.len() - 1] == "...")
+        {
+            return true;
+        }
+
+        if (_newParameters.len() + 1 == oldParameters.len())
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     function wrap( _object, _functionName, _function, _procedure )
     {
         local cachedMethod = this.cacheHookedMethod(_object, _functionName),
+        AR = ::RPGR_Avatar_Resistances,
         parentName = _object.SuperName;
 
         _object.rawset(_functionName, function( ... ) // TODO: check if rawset is the right procedure here
         {
-            local originalMethod = cachedMethod == null ? this[parentName][_functionName] : cachedMethod,
-            argumentsArray = ::RPGR_Avatar_Resistances.Standard.prependContextObject(this, vargv);
+            local originalMethod = cachedMethod == null ? this[parentName][_functionName] : cachedMethod;
+
+            if (!AR.Standard.validateParameters(originalMethod, vargv))
+            {
+                AR.Standard.log(format("An invalid number of parameters were passed to %s, aborting wrap procedure.", _functionName), true);
+                return;
+            }
+
+            local argumentsArray = ::RPGR_Avatar_Resistances.Standard.prependContextObject(this, vargv);
             return ::RPGR_Avatar_Resistances.Standard[_procedure](this, _function, originalMethod, argumentsArray);
         });
     }
