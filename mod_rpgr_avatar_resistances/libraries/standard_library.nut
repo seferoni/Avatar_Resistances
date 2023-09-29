@@ -30,6 +30,11 @@ AR.Standard <-
         return _argumentsArray[0];
     }
 
+    function getPercentageSetting( _settingID )
+    {
+        return (this.getSetting(_settingID) / 100.0)
+    }
+
     function getSetting( _settingID )
     {
         if (AR.Internal.MSUFound)
@@ -59,6 +64,7 @@ AR.Standard <-
         if (_isError)
         {
             ::logError(format("[Avatar Persistence] %s", _string));
+            return;
         }
 
         if (!this.getSetting("VerboseLogging"))
@@ -125,14 +131,17 @@ AR.Standard <-
 
     function validateParameters( _originalFunction, _newParameters )
     {
-        local oldParameters = _originalFunction.getInfos().parameters;
+        local originalInfo = _originalFunction.getinfos();
+        local originalParameters = originalInfo.parameters;
 
-        if (oldParameters[oldParameters.len() - 1] == "...")
+        if (originalParameters[originalParameters.len() - 1] == "...")
         {
             return true;
         }
 
-        if (_newParameters.len() + 1 == oldParameters.len())
+        local newLength = _newParameters.len() + 1;
+
+        if (newLength <= originalParameters.len() && newLength >= oldParameters.len() - originalInfo.defparams.len())
         {
             return true;
         }
