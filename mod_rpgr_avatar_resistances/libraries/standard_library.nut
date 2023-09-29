@@ -102,7 +102,7 @@ AR.Standard <-
         local originalValue = _originalMethod.acall(_argumentsArray);
         _argumentsArray.insert(1, originalValue);
         local returnValue = _function.acall(_argumentsArray);
-        return returnValue == null ? _originalValue : (returnValue == ::RPGR_Avatar_Resistances.Internal.TERMINATE ? null : returnValue);
+        return returnValue == null ? originalValue : (returnValue == ::RPGR_Avatar_Resistances.Internal.TERMINATE ? null : returnValue);
     }
 
     function prependContextObject( _object, _arguments )
