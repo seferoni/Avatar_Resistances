@@ -156,8 +156,8 @@ AR.Standard <-
                 return;
             }
 
-            local argumentsArray = ::RPGR_Avatar_Resistances.Standard.prependContextObject(this, vargv);
-            return ::RPGR_Avatar_Resistances.Standard[_procedure](this, _function, originalMethod, argumentsArray);
+            local argumentsArray = AR.Standard.prependContextObject(this, vargv);
+            return AR.Standard[_procedure](this, _function, originalMethod, argumentsArray);
         });
     }
 };
