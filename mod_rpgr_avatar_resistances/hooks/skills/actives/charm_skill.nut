@@ -1,7 +1,7 @@
 local AR = ::RPGR_Avatar_Resistances;
-::mods_hookExactClass("skills/actives/charm_skill", function( object )
+::mods_hookExactClass("skills/actives/charm_skill", function( _object )
 {
-    AR.Standard.wrap(object, "onDelayedEffect", function( _tag )
+    AR.Standard.wrap(_object, "onDelayedEffect", function( _tag )
     {
         if (!AR.Resistances.isWithinRosterThreshold())
         {
@@ -32,7 +32,7 @@ local AR = ::RPGR_Avatar_Resistances;
         {
             if (!user.isHiddenToPlayer() && !target.isHiddenToPlayer())
             {
-                ::Tactical.EventLog.log(::Const.UI.getColorizedEntityName(target) + " resists being charmed owing to a stalwart mind");
+                ::Tactical.EventLog.log(format("%s resists being charmed owing to a stalwart mind", ::Const.UI.getColorizedEntityName(target)));
             }
         }.bindenv(this), null);
         return false;

@@ -1,28 +1,26 @@
 local AR = ::RPGR_Avatar_Resistances;
-::mods_hookExactClass("skills/traits/player_character_trait", function( object )
+::mods_hookExactClass("skills/traits/player_character_trait", function( _object )
 {
-    AR.Standard.wrap(object, "getTooltip", function( ... )
+    AR.Standard.wrap(_object, "getTooltip", function( _tooltipArray )
     {
-        local tooltipArray = AR.Standard.getOriginalResult(vargv);
-
         if (!AR.Standard.getSetting("ModifyTooltip"))
         {
-            return tooltipArray;
+            return;
         }
 
         if (!AR.Resistances.isWithinRosterThreshold())
         {
-            return tooltipArray;
+            return;
         }
 
         local id = 10, type = "text";
 
         if (AR.Standard.getSetting("SwallowImmunity"))
         {
-            tooltipArray.push(AR.Standard.makeTooltip(id, type, "special.png", format("%s be swallowed whole by nachzehrers", AR.Standard.colourWrap("Cannot", "PositiveValue"))))
+            _tooltipArray.push(AR.Standard.makeTooltip(id, type, "special.png", format("%s be swallowed whole by nachzehrers", AR.Standard.colourWrap("Cannot", "PositiveValue"))))
         }
 
-        tooltipArray.extend([
+        _tooltipArray.extend([
             AR.Standard.makeTooltip(id, type, "perks.png", format("%s%% chance to resist charm effects", AR.Standard.colourWrap(format("+%i", AR.Standard.getSetting("CharmResistChance")), "PositiveValue"))),
             AR.Standard.makeTooltip(id, type, "perks.png", format("%s%% chance to resist sleep effects", AR.Standard.colourWrap(format("+%i", AR.Standard.getSetting("SleepResistChance")), "PositiveValue"))),
             AR.Standard.makeTooltip(id, type, "warning.png", format("Loses resistances when the company grows above %s men", AR.Standard.colourWrap(AR.Standard.getSetting("RosterMax"), "NegativeValue")))
@@ -30,21 +28,21 @@ local AR = ::RPGR_Avatar_Resistances;
 
         if (!AR.Internal.APFound)
         {
-            return tooltipArray;
+            return _tooltipArray;
         }
 
         local AP = ::RPGR_Avatar_Persistence;
 
         if (!AP.Persistence.isWithinInjuryThreshold(this.getContainer().getActor()))
         {
-            return tooltipArray;
+            return _tooltipArray;
         }
 
         if (AP.Standard.getSetting("ModifyTooltip"))
         {
-            tooltipArray.append(AR.Standard.makeTooltip(id, type, "warning.png", format("Loses persistence when %s", AP.Persistence.getThresholdWarningText())));
+            _tooltipArray.append(AR.Standard.makeTooltip(id, type, "warning.png", format("Loses persistence when %s", AP.Persistence.getThresholdWarningText())));
         }
 
-        return tooltipArray;
+        return _tooltipArray;
     }, "overrideReturn");
 });

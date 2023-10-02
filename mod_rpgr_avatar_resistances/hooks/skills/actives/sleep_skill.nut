@@ -1,7 +1,7 @@
 local AR = ::RPGR_Avatar_Resistances;
-::mods_hookExactClass("skills/actives/sleep_skill", function( object )
+::mods_hookExactClass("skills/actives/sleep_skill", function( _object )
 {
-    AR.Standard.wrap(object, "onDelayedEffect", function( _tag )
+    AR.Standard.wrap(_object, "onDelayedEffect", function( _tag )
     {
         if (!AR.Resistances.isWithinRosterThreshold())
         {
