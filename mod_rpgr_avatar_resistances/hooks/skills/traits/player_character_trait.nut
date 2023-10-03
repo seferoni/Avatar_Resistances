@@ -13,17 +13,15 @@ local AR = ::RPGR_Avatar_Resistances;
             return;
         }
 
-        local id = 10, type = "text";
-
         if (AR.Standard.getSetting("SwallowImmunity"))
         {
-            _tooltipArray.push(AR.Standard.makeTooltip(id, type, "special.png", format("%s be swallowed whole by nachzehrers", AR.Standard.colourWrap("Cannot", "PositiveValue"))))
+            _tooltipArray.push({id = 10, type = "text", icon = "special.png", text = format("%s be swallowed whole by nachzehrers", AR.Standard.colourWrap("Cannot", "PositiveValue"))});
         }
 
         _tooltipArray.extend([
-            AR.Standard.makeTooltip(id, type, "perks.png", format("%s%% chance to resist charm effects", AR.Standard.colourWrap(format("+%i", AR.Standard.getSetting("CharmResistChance")), "PositiveValue"))),
-            AR.Standard.makeTooltip(id, type, "perks.png", format("%s%% chance to resist sleep effects", AR.Standard.colourWrap(format("+%i", AR.Standard.getSetting("SleepResistChance")), "PositiveValue"))),
-            AR.Standard.makeTooltip(id, type, "warning.png", format("Loses resistances when the company grows above %s men", AR.Standard.colourWrap(AR.Standard.getSetting("RosterMax"), "NegativeValue")))
+            {id = 10, type = "text", icon = "perks.png", text = format("%s%% chance to resist charm effects", AR.Standard.colourWrap(format("+%i", AR.Standard.getSetting("CharmResistChance")), "PositiveValue"))},
+            {id = 10, type = "text", icon = "perks.png", text = format("%s%% chance to resist sleep effects", AR.Standard.colourWrap(format("+%i", AR.Standard.getSetting("SleepResistChance")), "PositiveValue"))},
+            {id = 10, type = "text", icon = "warning.png", text = format("Loses resistances when the company grows above %s men", AR.Standard.colourWrap(AR.Standard.getSetting("RosterMax"), "NegativeValue"))}
         ]);
 
         if (!AR.Internal.APFound)
@@ -40,7 +38,7 @@ local AR = ::RPGR_Avatar_Resistances;
 
         if (AP.Standard.getSetting("ModifyTooltip"))
         {
-            _tooltipArray.append(AR.Standard.makeTooltip(id, type, "warning.png", format("Loses persistence when %s", AP.Persistence.getThresholdWarningText())));
+            _tooltipArray.push({id = 10, type = "text", icon = "warning.png", text = format("Loses persistence when %s", AP.Persistence.getThresholdWarningText())});
         }
 
         return _tooltipArray;
