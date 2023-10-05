@@ -2,7 +2,7 @@
 {
     ID = "mod_rpgr_avatar_resistances",
     Name = "RPG Rebalance - Avatar Resistances",
-    Version = "1.5.0",
+    Version = 1.5.0,
     Internal =
     {
         TERMINATE = "__end"
@@ -19,7 +19,7 @@
 
 local AR = ::RPGR_Avatar_Resistances;
 ::mods_registerMod(AR.ID, AR.Version, AR.Name);
-::mods_queue(AR.ID, ">mod_msu(>=1.2.6)", function()
+::mods_queue(AR.ID, ">mod_msu", function()
 {
     AR.Internal.MSUFound <- ::mods_getRegisteredMod("mod_msu") != null;
     AR.Internal.APFound <- ::mods_getRegisteredMod("mod_rpgr_avatar_persistence") != null;
