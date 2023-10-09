@@ -3,7 +3,7 @@ AR.Resistances <-
 {
     function isActorViable( _actor )
     {
-        return _actor.getFlags().get("IsPlayerCharacter");
+        return AR.Standard.getFlag("IsPlayerCharacter", _actor);
     }
 
     function isWithinRosterThreshold()

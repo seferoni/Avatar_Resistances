@@ -36,6 +36,30 @@ AR.Standard <-
         }
     }
 
+    function getFlag( _string, _object )
+    {
+        local flagValue = _object.getFlags().get(format("mod_rpgr_avatar_resistances.%s", _string));
+
+        if (!flagValue)
+        {
+            return _object.getFlags().get(format("%s", _string));
+        }
+
+        return flagValue;
+    }
+
+    function getFlagAsInt( _string, _object )
+    {
+        return _object.getFlags().getAsInt(format("mod_rpgr_avatar_resistances.%s", _string));
+
+        if (!flagValue)
+        {
+            return _object.getFlags().getAsInt(format("%s", _string));
+        }
+
+        return flagValue;
+    }
+
     function getPercentageSetting( _settingID )
     {
         return (this.getSetting(_settingID) / 100.0)
@@ -65,20 +89,20 @@ AR.Standard <-
         }
     }
 
+    function incrementFlag( _string, _value, _object )
+    {
+        _object.getFlags().increment(format("mod_rpgr_avatar_resistances.%s", _string), _value);
+    }
+
     function log( _string, _isError = false )
     {
         if (_isError)
         {
-            ::logError(format("[Avatar Persistence] %s", _string));
+            ::logError(format("[Avatar Resistances] %s", _string));
             return;
         }
 
-        if (!this.getSetting("VerboseLogging"))
-        {
-            return;
-        }
-
-        ::logInfo(format("[Avatar Persistence] %s", _string));
+        ::logInfo(format("[Avatar Resistances] %s", _string));
     }
 
     function overrideArguments( _object, _function, _originalMethod, _argumentsArray )
@@ -124,8 +148,13 @@ AR.Standard <-
 
     function setCase( _string, _case )
     {
-        local character = _string[0].tochar()[_case]()
+        local character = _string[0].tochar()[_case]();
         return format("%s%s", character, _string.slice(1, str.len() - 1));
+    }
+
+    function setFlag( _string, _value, _object )
+    {
+        _object.getFlags().set(format("mod_rpgr_avatar_resistances.%s", _string), _value);
     }
 
     function validateParameters( _originalFunction, _newParameters )
