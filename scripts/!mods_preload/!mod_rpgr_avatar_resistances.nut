@@ -10,10 +10,11 @@
     Defaults =
     {
         CharmResistChance = 100,
-        SleepResistChance = 25,
-        RosterMax = 1,
+        SleepResistChance = 60,
+        RosterMax = 3,
         ModifyTooltip = true,
-        SwallowImmunity = true
+        SwallowImmunity = true,
+        VerboseLogging = true
     }
 };
 
@@ -36,10 +37,10 @@ local AR = ::RPGR_Avatar_Resistances;
     local charmResistChance = pageGeneral.addRangeSetting("CharmResistChance", 100, 0, 100, 1, "Charm Resist Chance");
     charmResistChance.setDescription("Percentage chance for player characters to resist charm attempts.");
 
-    local sleepResistChance = pageGeneral.addRangeSetting("SleepResistChance", 25, 0, 100, 1, "Sleep Resist Chance");
+    local sleepResistChance = pageGeneral.addRangeSetting("SleepResistChance", 60, 0, 100, 1, "Sleep Resist Chance");
     sleepResistChance.setDescription("Percentage chance for player characters to resist sleep attempts.");
 
-    local rosterMax = pageGeneral.addRangeSetting("RosterMax", 1, 1, 27, 1, "Roster Threshold");
+    local rosterMax = pageGeneral.addRangeSetting("RosterMax", 3, 1, 27, 1, "Roster Threshold");
     rosterMax.setDescription("Determines the company size threshold above which the player character loses resistances provided by Avatar Resistances.");
 
     local modifyTooltip = pageGeneral.addBooleanSetting("ModifyTooltip", true, "Modify Tooltip");
