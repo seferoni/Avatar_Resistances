@@ -30,7 +30,7 @@ local AR = ::RPGR_Avatar_Resistances;
         return;
     }
 
-    AR.Mod <- ::MSU.Class.Mod(AR.ID, AR.Version, AR.Name);
+    AR.Mod <- ::MSU.Class.Mod(AR.ID, AR.Version.tostring(), AR.Name);
 
     local pageGeneral = AR.Mod.ModSettings.addPage("General");
 
