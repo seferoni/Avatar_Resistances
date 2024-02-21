@@ -1,200 +1,247 @@
 local AR = ::RPGR_Avatar_Resistances;
 AR.Standard <-
 {
-    function cacheHookedMethod( _object, _functionName )
-    {
-        local naiveMethod = null;
+	Colour = 
+	{
+		Green = "PositiveValue",
+		Red = "NegativeValue"
+	}
+	
+	function appendToStringList( _targetString, _string )
+	{
+		local newString = _targetString == "" ? format("%s", _string) : format("%s, %s", _targetString, _string);
+		return newString;
+	}
 
-        if (_functionName in _object)
-        {
-            naiveMethod = _object[_functionName];
-        }
+	function cacheHookedMethod( _object, _methodName )
+	{
+		local naiveMethod = null;
 
-        return naiveMethod;
-    }
+		if (_methodName in _object)
+		{
+			naiveMethod = _object[_methodName];
+		}
 
-    function colourWrap( _text, _colour )
-    {
-        local string = _text;
+		return naiveMethod;
+	}
 
-        if (typeof _text != "string")
-        {
-            string = _text.tostring();
-        }
+	function colourWrap( _text, _colour )
+	{
+		local string = _text;
 
-        return format("[color=%s] %s [/color]", ::Const.UI.Color[_colour], string)
-    }
+		if (typeof _text != "string")
+		{
+			string = _text.tostring();
+		}
 
-    function getDescriptor( _valueToMatch, _referenceTable )
-    {
-        foreach( descriptor, value in _referenceTable )
-        {
-            if (value == _valueToMatch)
-            {
-                return descriptor;
-            }
-        }
-    }
+		return format("[color=%s]%s[/color]", ::Const.UI.Color[_colour], string)
+	}
 
-    function getFlag( _string, _object )
-    {
-        local flagValue = _object.getFlags().get(format("mod_rpgr_avatar_resistances.%s", _string));
+	function getDescriptor( _valueToMatch, _referenceTable )
+	{
+		foreach( descriptor, value in _referenceTable )
+		{
+			if (value == _valueToMatch)
+			{
+				return descriptor;
+			}
+		}
+	}
 
-        if (!flagValue)
-        {
-            return _object.getFlags().get(format("%s", _string));
-        }
+	function getFlag( _string, _object )
+	{
+		local flagValue = _object.getFlags().get(format("mod_RPGR_Avatar_Resistances.%s", _string));
 
-        return flagValue;
-    }
+		if (!flagValue)
+		{
+			flagValue = _object.getFlags().get(format("%s", _string));
+		}
 
-    function getFlagAsInt( _string, _object )
-    {
-        return _object.getFlags().getAsInt(format("mod_rpgr_avatar_resistances.%s", _string));
+		return flagValue;
+	}
 
-        if (!flagValue)
-        {
-            return _object.getFlags().getAsInt(format("%s", _string));
-        }
+	function getFlagAsInt( _string, _object )
+	{
+		local flagValue = _object.getFlags().getAsInt(format("mod_RPGR_Avatar_Resistances.%s", _string));
 
-        return flagValue;
-    }
+		if (flagValue == 0)
+		{
+			flagValue = _object.getFlags().getAsInt(format("%s", _string));
+		}
 
-    function getPercentageSetting( _settingID )
-    {
-        return (this.getSetting(_settingID) / 100.0)
-    }
+		return flagValue;
+	}
 
-    function getSetting( _settingID )
-    {
-        if (AR.Internal.MSUFound)
-        {
-            return AR.Mod.ModSettings.getSetting(_settingID).getValue();
-        }
+	function getPercentageSetting( _settingID )
+	{
+		return (this.getSetting(_settingID) / 100.0)
+	}
 
-        if (!(_settingID in AR.Defaults))
-        {
-            this.log(format("Invalid settingID %s passed to getSetting, returning null.", _settingID), true);
-            return null;
-        }
+	function getSetting( _settingID )
+	{
+		if (AR.Internal.MSUFound)
+		{
+			return AR.Mod.ModSettings.getSetting(_settingID).getValue();
+		}
 
-        return AR.Defaults[_settingID];
-    }
+		if (!(_settingID in AR.Defaults))
+		{
+			this.log(format("Invalid settingID %s passed to getSetting.", _settingID), true);
+			return;
+		}
 
-    function includeFiles( _path )
-    {
-        foreach( file in ::IO.enumerateFiles(_path) )
-        {
-            ::include(file);
-        }
-    }
+		return AR.Defaults[_settingID];
+	}
 
-    function incrementFlag( _string, _value, _object )
-    {
-        _object.getFlags().increment(format("mod_rpgr_avatar_resistances.%s", _string), _value);
-    }
+	function includeFiles( _path )
+	{
+		local filePaths = ::IO.enumerateFiles(_path);
 
-    function log( _string, _isError = false )
-    {
-        if (_isError)
-        {
-            ::logError(format("[Avatar Resistances] %s", _string));
-            return;
-        }
+		foreach( file in filePaths )
+		{
+			::include(file);
+		}
+	}
 
-        ::logInfo(format("[Avatar Resistances] %s", _string));
-    }
+	function incrementFlag( _string, _value, _object, _isNative = false )
+	{
+		local flag = _isNative ? format("%s", _string) : format("mod_RPGR_Avatar_Resistances.%s", _string);
+		_object.getFlags().increment(flag, _value);
+	}
 
-    function overrideArguments( _object, _function, _originalMethod, _argumentsArray )
-    {   # Calls new method and passes result onto original method; if null, calls original method with original arguments.
-        # It is the responsibility of the overriding function to return appropriate arguments.
-        local returnValue = _function.acall(_argumentsArray);
-        local newArguments = returnValue == null ? _argumentsArray : this.prependContextObject(_object, returnValue);
-        return _originalMethod.acall(newArguments);
-    }
+	function isWeakRef( _object )
+	{
+		if (typeof _object != "instance")
+		{
+			return false;
+		}
 
-    function overrideMethod( _object, _function, _originalMethod, _argumentsArray )
-    {   # Calls and returns new method; if return value is null, calls and returns original method.
-        local returnValue = _function.acall(_argumentsArray);
-        return returnValue == null ? _originalMethod.acall(_argumentsArray) : (returnValue == AR.Internal.TERMINATE ? null : returnValue);
-    }
+		if (!(_object instanceof ::WeakTableRef))
+		{
+			return false;
+		}
 
-    function overrideReturn( _object, _function, _originalMethod, _argumentsArray )
-    {   # Calls original method and passes result onto new method, returns new result.
-        # It is the responsibility of the overriding function to ensure it takes on the appropriate arguments and returns appropriate values.
-        local originalValue = _originalMethod.acall(_argumentsArray);
-        if (originalValue != null) _argumentsArray.insert(1, originalValue);
-        local returnValue = _function.acall(_argumentsArray);
-        return returnValue == null ? originalValue : (returnValue == AR.Internal.TERMINATE ? null : returnValue);
-    }
+		return true;
+	}
 
-    function prependContextObject( _object, _arguments )
-    {
-        local array = [_object];
+	function log( _string, _isError = false )
+	{
+		if (_isError)
+		{
+			::logError(format("[AR] %s", _string));
+			return;
+		}
 
-        if (typeof _arguments != "array")
-        {
-            array.push(_arguments);
-            return array;
-        }
+		::logInfo(format("[AR] %s", _string));
+	}
 
-        foreach( entry in _arguments )
-        {
-            array.push(entry);
-        }
+	function overrideArguments( _object, _function, _originalMethod, _argumentsArray )
+	{	# Calls new method and passes result onto original method; if null, calls original method with original arguments.
+		# It is the responsibility of the overriding function to return appropriate arguments.
+		local returnValue = _function.acall(_argumentsArray),
+		newArguments = returnValue == null ? _argumentsArray : this.prependContextObject(_object, returnValue);
+		return _originalMethod.acall(newArguments);
+	}
 
-        return array;
-    }
+	function overrideMethod( _object, _function, _originalMethod, _argumentsArray )
+	{	# Calls and returns new method; if return value is null, calls and returns original method.
+		local returnValue = _function.acall(_argumentsArray);
+		return returnValue == null ? _originalMethod.acall(_argumentsArray) : (returnValue == AR.Internal.TERMINATE ? null : returnValue);
+	}
 
-    function setCase( _string, _case )
-    {
-        local character = _string[0].tochar()[_case]();
-        return format("%s%s", character, _string.slice(1, str.len() - 1));
-    }
+	function overrideReturn( _object, _function, _originalMethod, _argumentsArray )
+	{	# Calls original method and passes result onto new method, returns new result.
+		# It is the responsibility of the overriding function to ensure it takes on the appropriate arguments and returns appropriate values.
+		local originalValue = _originalMethod.acall(_argumentsArray);
+		if (originalValue != null) _argumentsArray.insert(1, originalValue);
+		local returnValue = _function.acall(_argumentsArray);
+		return returnValue == null ? originalValue : (returnValue == AR.Internal.TERMINATE ? null : returnValue);
+	}
 
-    function setFlag( _string, _value, _object )
-    {
-        _object.getFlags().set(format("mod_rpgr_avatar_resistances.%s", _string), _value);
-    }
+	function parseSemVer( _version )
+	{
+		local versionArray = split(_version, ".");
+		if (versionArray.len() > 3) versionArray.resize(3);
+		return format("%s.%s%s", versionArray[0], versionArray[1], versionArray[2]).tofloat();
+	}
 
-    function validateParameters( _originalFunction, _newParameters )
-    {
-        local originalInfo = _originalFunction.getinfos(), originalParameters = originalInfo.parameters;
+	function prependContextObject( _object, _arguments )
+	{
+		local array = [_object];
 
-        if (originalParameters[originalParameters.len() - 1] == "...")
-        {
-            return true;
-        }
+		if (typeof _arguments != "array")
+		{
+			array.push(_arguments);
+			return array;
+		}
 
-        local newLength = _newParameters.len() + 1;
+		foreach( entry in _arguments )
+		{
+			array.push(entry);
+		}
 
-        if (newLength <= originalParameters.len() && newLength >= originalParameters.len() - originalInfo.defparams.len())
-        {
-            return true;
-        }
+		return array;
+	}
 
-        return false;
-    }
+	function removeFromArray( _object, _target )
+	{
+		local culledObjects = typeof _object == "array" ? _object : [_object];
 
-    function wrap( _object, _functionName, _function, _procedure )
-    {
-        local cachedMethod = this.cacheHookedMethod(_object, _functionName),
-        AR = ::RPGR_Avatar_Resistances,
-        parentName = _object.SuperName;
+		foreach( entry in culledObjects )
+		{
+			local index = _target.find(entry);
+			if (index != null) _target.remove(index);
+		}
+	}
 
-        _object.rawset(_functionName, function( ... )
-        {
-            local originalMethod = cachedMethod == null ? this[parentName][_functionName] : cachedMethod;
+	function setCase( _string, _case )
+	{
+		local character = _string[0].tochar()[_case]();
+		return format("%s%s", character, _string.slice(1));
+	}
 
-            if (!AR.Standard.validateParameters(originalMethod, vargv))
-            {
-                AR.Standard.log(format("An invalid number of parameters were passed to %s, aborting wrap procedure.", _functionName), true);
-                return;
-            }
+	function setFlag( _string, _value, _object, _isNative = false )
+	{
+		local flag = _isNative ? format("%s", _string) : format("mod_RPGR_Avatar_Resistances.%s", _string);
+		_object.getFlags().set(flag, _value);
+	}
 
-            local argumentsArray = AR.Standard.prependContextObject(this, vargv);
-            return AR.Standard[_procedure](this, _function, originalMethod, argumentsArray);
-        });
-    }
+	function validateParameters( _originalFunction, _newParameters )
+	{
+		local originalInfo = _originalFunction.getinfos(), originalParameters = originalInfo.parameters;
+
+		if (originalParameters[originalParameters.len() - 1] == "...")
+		{
+			return true;
+		}
+
+		local newLength = _newParameters.len() + 1;
+
+		if (newLength <= originalParameters.len() && newLength >= originalParameters.len() - originalInfo.defparams.len())
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	function wrap( _object, _methodName, _function, _procedure = "overrideReturn" )
+	{
+		local cachedMethod = this.cacheHookedMethod(_object, _methodName),
+		Standard = this, parentName = _object.SuperName;
+
+		_object.rawset(_methodName, function( ... )
+		{
+			local originalMethod = cachedMethod == null ? this[parentName][_methodName] : cachedMethod;
+
+			if (!Standard.validateParameters(originalMethod, vargv))
+			{
+				Standard.log(format("An invalid number of parameters were passed to %s, aborting wrap procedure.", _methodName), true);
+				return;
+			}
+
+			local argumentsArray = Standard.prependContextObject(this, vargv);
+			return Standard[_procedure](this, _function, originalMethod, argumentsArray);
+		});
+	}
 };
-

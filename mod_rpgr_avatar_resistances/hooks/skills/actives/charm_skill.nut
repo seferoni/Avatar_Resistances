@@ -13,7 +13,8 @@ local AR = ::RPGR_Avatar_Resistances;
 			return;
 		}
 
-		local targetTile = _tag.TargetTile, target = targetTile.getEntity();
+		local targetTile = _tag.TargetTile, 
+		target = targetTile.getEntity();
 
 		if (target == null)
 		{
@@ -25,6 +26,7 @@ local AR = ::RPGR_Avatar_Resistances;
 			return;
 		}
 
+		# The code below is adapted closely from its vanilla counterpart.
 		local user = _tag.User,
 		time = ::Tactical.spawnProjectileEffect("effect_heart_01", user.getTile(), targetTile, 0.33, 2.0, false, false);
 		::Time.scheduleEvent(::TimeUnit.Virtual, time, function( _dummy = null )

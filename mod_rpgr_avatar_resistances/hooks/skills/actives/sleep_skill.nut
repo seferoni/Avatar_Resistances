@@ -31,6 +31,7 @@ local AR = ::RPGR_Avatar_Resistances;
 			return AR.Defaults.TERMINATE;
 		}
 
-		return;
+		# This return statement is redundant and exists strictly to facilitate the readability of code.
+		return null;
 	}, "overrideMethod");
 });
