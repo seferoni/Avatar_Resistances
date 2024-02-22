@@ -27,8 +27,8 @@ local AR = ::RPGR_Avatar_Resistances;
 
 		if (!_tag.User.isHiddenToPlayer() && !target.isHiddenToPlayer())
 		{
-			::Tactical.EventLog.log(::Const.UI.getColorizedEntityName(target) + " resists being put to sleep owing to a stalwart mind");
-			return AR.Defaults.TERMINATE;
+			::Tactical.EventLog.log(format("%s resists being put to sleep owing to a stalwart mind", ::Const.UI.getColorizedEntityName(target)));
+			return AR.Internal.TERMINATE;
 		}
 
 		# This return statement is redundant and exists strictly to facilitate the readability of code.

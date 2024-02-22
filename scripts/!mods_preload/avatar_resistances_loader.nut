@@ -1,3 +1,3 @@
-::include("mod_rpgr_avatar_resistances/libraries/standard_library.nut");
-::RPGR_Avatar_Resistances.Standard.includeFiles("mod_rpgr_avatar_resistances/libraries/sublibraries");
-::RPGR_Avatar_Resistances.Standard.includeFiles("mod_rpgr_avatar_resistances/hooks");
+local AR = ::RPGR_Avatar_Resistances;
+AR.Standard.includeFiles("mod_rpgr_avatar_resistances/libraries/sublibraries");
+AR.Standard.includeFiles("mod_rpgr_avatar_resistances/hooks");

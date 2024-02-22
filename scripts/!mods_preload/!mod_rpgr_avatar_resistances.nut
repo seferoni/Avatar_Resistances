@@ -2,7 +2,7 @@
 {
 	ID = "mod_rpgr_avatar_resistances",
 	Name = "RPG Rebalance - Avatar Resistances",
-	Version = "1.5.1",
+	Version = "1.5.0",
 	Internal =
 	{
 		TERMINATE = "__end"
@@ -12,8 +12,7 @@
 		CharmResistChance = 100,
 		SleepResistChance = 60,
 		RosterMax = 6,
-		ModifyTooltip = true,
-		VerboseLogging = true
+		ModifyTooltip = true
 	}
 };
 
