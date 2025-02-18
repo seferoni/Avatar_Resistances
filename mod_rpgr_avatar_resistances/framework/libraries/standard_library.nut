@@ -259,11 +259,11 @@
 	{
 		if (_isError)
 		{
-			::logError(format("[Raids] %s", _string));
+			::logError(format("[AR] %s", _string));
 			return;
 		}
 
-		::logInfo(format("[Raids] %s", _string));
+		::logInfo(format("[AR] %s", _string));
 	}
 
 	function push( _object, _targetArray )
