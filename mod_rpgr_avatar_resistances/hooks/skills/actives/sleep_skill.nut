@@ -1,14 +1,13 @@
-local AR = ::RPGR_Avatar_Resistances;
-::mods_hookExactClass("skills/actives/sleep_skill", function( _object )
+::AR.Patcher.hook("scripts/skills/actives/sleep_skill", function( p )
 {
-	AR.Standard.wrap(_object, "onDelayedEffect", function( _tag )
+	::AR.Patcher.wrap(p, "onDelayedEffect", function( _tag )
 	{
-		if (!AR.Resistances.isWithinRosterThreshold())
+		if (!::AR.Resistances.isWithinRosterThreshold())
 		{
 			return;
 		}
 
-		if (::Math.rand(1, 100) > AR.Standard.getSetting("SleepResistChance"))
+		if (::Math.rand(1, 100) > ::AR.Standard.getSetting("SleepResistChance"))
 		{
 			return;
 		}
@@ -20,18 +19,15 @@ local AR = ::RPGR_Avatar_Resistances;
 			return;
 		}
 
-		if (!AR.Resistances.isActorViable(target))
+		if (!::AR.Resistances.isActorViable(target))
 		{
 			return;
 		}
 
 		if (!_tag.User.isHiddenToPlayer() && !target.isHiddenToPlayer())
 		{
-			::Tactical.EventLog.log(format("%s resists being put to sleep owing to a stalwart mind", ::Const.UI.getColorizedEntityName(target)));
-			return AR.Internal.TERMINATE;
+			::Tactical.EventLog.log(format(::AR.Strings.Generic.SleepResistNotification, ::Const.UI.getColorizedEntityName(target)));
+			return ::AR.Internal.TERMINATE;
 		}
-
-		# This return statement is redundant and exists strictly to facilitate the readability of code.
-		return null;
 	}, "overrideMethod");
 });
