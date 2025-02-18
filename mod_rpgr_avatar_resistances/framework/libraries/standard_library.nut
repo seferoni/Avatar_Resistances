@@ -87,18 +87,6 @@
 		return list;
 	}
 
-	function getCombatStatistics()
-	{
-		local statistics =
-		{
-			LastCombatWasArena = ::AR.Standard.getFlag("LastCombatWasArena", ::World.Statistics),
-			LastCombatWasDefeat = ::AR.Standard.getFlagAsInt("LastCombatResult", ::World.Statistics) != 1,
-			LastCombatFaction = ::AR.Standard.getFlag("LastCombatFaction", ::World.Statistics),
-			LastFoeWasParty = ::AR.Standard.getFlag("LastFoeWasParty", ::World.Statistics),
-		};
-		return statistics;
-	}
-
 	function getFlag( _string, _object )
 	{
 		local flagValue = _object.getFlags().get(format("%s.%s", ::AR.ID, _string));
@@ -334,10 +322,5 @@
 	{
 		local flag = _isNative ? format("%s", _string) : format("%s.%s", ::AR.ID, _string);
 		_object.getFlags().set(flag, _value);
-	}
-
-	function setLastFoeWasPartyStatistic( _isParty )
-	{
-		this.setFlag("LastFoeWasParty", _isParty, ::World.Statistics);
 	}
 };
