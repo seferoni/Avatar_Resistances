@@ -12,8 +12,7 @@
 			return;
 		}
 
-		local targetTile = _tag.TargetTile;
-		local target = targetTile.getEntity();
+		local target = _tag.TargetTile.getEntity();
 
 		if (target == null)
 		{
@@ -27,7 +26,7 @@
 
 		# The code below is adapted closely from the vanilla method.
 		local user = _tag.User;
-		local time = ::Tactical.spawnProjectileEffect("effect_heart_01", user.getTile(), targetTile, 0.33, 2.0, false, false);
+		local time = ::Tactical.spawnProjectileEffect("effect_heart_01", user.getTile(), _tag.TargetTile, 0.33, 2.0, false, false);
 		::Time.scheduleEvent(::TimeUnit.Virtual, time, function( _dummy = null )
 		{
 			if (!user.isHiddenToPlayer() && !target.isHiddenToPlayer())
