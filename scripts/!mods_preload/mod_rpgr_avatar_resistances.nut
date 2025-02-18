@@ -2,7 +2,7 @@
 {
 	ID = "mod_rpgr_avatar_resistances",
 	Name = "RPG Rebalance - Avatar Resistances",
-	Version = "1.5.0",
+	Version = "2.0.0",
 	Internal =
 	{
 		ManagerPath = "mod_rpgr_avatar_resistances/framework/internal/manager.nut",
