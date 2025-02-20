@@ -88,8 +88,7 @@
 
 	function loadFiles()
 	{
-		this.includeFiles("mod_rpgr_avatar_resistances/framework/classes/main");
-		this.includeFiles("mod_rpgr_avatar_resistances/framework/classes/utilities");
+		this.includeFiles("mod_rpgr_avatar_resistances/framework/classes");
 		this.includeFiles("mod_rpgr_avatar_resistances/hooks");
 	}
 

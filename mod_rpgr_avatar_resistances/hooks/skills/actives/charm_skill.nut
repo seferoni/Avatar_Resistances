@@ -7,7 +7,7 @@
 			return;
 		}
 
-		if (::Math.rand(1, 100) > ::AR.Standard.getSetting("CharmResistChance"))
+		if (::Math.rand(1, 100) > ::AR.Standard.getParameter("CharmResistChance"))
 		{
 			return;
 		}

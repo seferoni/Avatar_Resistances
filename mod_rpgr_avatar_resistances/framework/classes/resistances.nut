@@ -13,7 +13,7 @@
 
 	function createCharmResistEntry()
 	{
-		local chance = ::AR.Standard.getSetting("CharmResistChance");
+		local chance = ::AR.Standard.getParameter("CharmResistChance");
 		return ::AR.Standard.constructEntry
 		(
 			"Special",
@@ -23,7 +23,7 @@
 
 	function createSleepResistEntry()
 	{
-		local chance = ::AR.Standard.getSetting("SleepResistChance");
+		local chance = ::AR.Standard.getParameter("SleepResistChance");
 		return ::AR.Standard.constructEntry
 		(
 			"Special",
@@ -33,7 +33,7 @@
 
 	function createTutorialEntry()
 	{
-		local threshold = ::AR.Standard.getSetting("RosterMax");
+		local threshold = ::AR.Standard.getParameter("RosterMax");
 		return ::AR.Standard.constructEntry
 		(
 			"Warning",
@@ -48,6 +48,6 @@
 
 	function isWithinRosterThreshold()
 	{
-		return ::World.getPlayerRoster().getAll().len() <= ::AR.Standard.getSetting("RosterMax");
+		return ::World.getPlayerRoster().getAll().len() <= ::AR.Standard.getParameter("RosterMax");
 	}
 };

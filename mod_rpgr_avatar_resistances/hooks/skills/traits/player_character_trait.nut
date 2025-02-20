@@ -2,7 +2,7 @@
 {
 	::AR.Patcher.wrap(p, "getTooltip", function( _tooltipArray )
 	{
-		if (!::AR.Standard.getSetting("ModifyTooltip"))
+		if (!::AR.Standard.getParameter("ModifyTooltip"))
 		{
 			return;
 		}

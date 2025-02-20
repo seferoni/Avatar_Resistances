@@ -7,7 +7,7 @@
 			return;
 		}
 
-		if (::Math.rand(1, 100) > ::AR.Standard.getSetting("SleepResistChance"))
+		if (::Math.rand(1, 100) > ::AR.Standard.getParameter("SleepResistChance"))
 		{
 			return;
 		}
