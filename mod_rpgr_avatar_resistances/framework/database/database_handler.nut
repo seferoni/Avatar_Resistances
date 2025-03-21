@@ -58,7 +58,7 @@
 
 		foreach( parameterType, parameterTable in this.Settings )
 		{
-			::AR.Standard.extendTable(parameterDictionary, agglomeratedParameters);
+			::AR.Standard.extendTable(parameterTable, agglomeratedParameters);
 		}
 
 		return agglomeratedParameters;
