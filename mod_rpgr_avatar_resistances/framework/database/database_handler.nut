@@ -6,35 +6,32 @@
 		this.Generic <- {};
 	}
 
-	function getField( _tableName, _fieldName )
+	function getExactField( _tableName, _subTableName, _fieldName )
 	{
-		local field = this.getTopLevelField(_tableName, _fieldName);
-
-		if (field == null)
-		{
-			field = this.getSubLevelField(_tableName, _fieldName);
-		}
-
-		return field;
+		return this[_tableName][_subTableName][_fieldName];
 	}
 
-	function getSubLevelField( _tableName, _fieldName )
+	function getField( _tableName, _fieldName = "" )
 	{
-		foreach( subtableName, nestedTable in this[_tableName] )
-		{
-			if (!(_fieldName in nestedTable))
-			{
-				continue;
-			}
-
-			return this[_tableName][subtableName][_fieldName];
-		}
+		return this.getTopLevelField(_tableName, _fieldName);
 	}
 
 	function getTopLevelField( _tableName, _fieldName )
 	{
+		if (!(_tableName) in this)
+		{
+			::AR.Standard.log(format("Could not find the specified database %s.", _tableName), true);
+			return null;
+		}
+
+		if (_fieldName == "")
+		{
+			return this[_tableName];
+		}
+
 		if (!(_fieldName in this[_tableName]))
 		{
+			::AR.Standard.log(format("Could not find %s in the specified database %s.", _fieldName, _tableName), true);
 			return null;
 		}
 
@@ -45,7 +42,7 @@
 	{
 		if (!_iconKey in this.Generic.Icons)
 		{
-			::AR.Standard.log(format(::AR.Strings.Debug.InvalidIconPath, _iconKey), true);
+			::AR.Standard.log(format("%s is not a valid icon key - this will break all associated tooltip elements.", _iconKey), true);
 			return null;
 		}
 

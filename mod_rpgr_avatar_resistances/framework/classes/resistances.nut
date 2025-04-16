@@ -15,7 +15,7 @@
 	{
 		local chance = ::AR.Standard.getParameter("CharmResistChance");
 		return ::AR.Standard.constructEntry
-		(
+		(	// TODO: ensure these index the right string keys
 			"Special",
 			format(::AR.Strings.Generic.CharmResistChanceTooltip, ::AR.Standard.colourWrap(chance, ::AR.Standard.Colour.Green))
 		);

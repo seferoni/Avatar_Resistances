@@ -50,7 +50,7 @@
 		foreach( category in pageCategories )
 		{
 			local pageID = format("Page%s", category);
-			local pageName = ::AR.Strings.Settings[format("%sName", pageID)];
+			local pageName = ::AR.Integrations.MSU.getElementName(pageID);
 			::AR.Integrations.MSU.addPage(pageID, pageName);
 		}
 	}

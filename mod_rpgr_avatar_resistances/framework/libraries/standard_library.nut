@@ -7,8 +7,11 @@
 	},
 	Colour =
 	{
-		Gold = "#574200"
+		Cyan = "#0099cc",
+		Gold = "#ffda0a"
 		Green = "#2a5424",
+		MutedGold = "#bcad8c",
+		Orange = "#cc5500",
 		Red = "#691a1a"
 	},
 	Tooltip =
@@ -18,22 +21,10 @@
 		text = ""
 	}
 
-	function appendToStringList( _string, _list, _separatorString = "," )
+	function appendToStringList( _string, _list, _separatorString = ", " )
 	{
-		local newString = _list == "" ? format("%s", _string) : format("%s%s %s", _list, _separatorString, _string);
+		local newString = _list == "" ? format("%s", _string) : format("%s%s%s", _list, _separatorString, _string);
 		return newString;
-	}
-
-	function cacheHookedMethod( _object, _methodName )
-	{
-		local naiveMethod = null;
-
-		if (_methodName in _object)
-		{
-			naiveMethod = _object[_methodName];
-		}
-
-		return naiveMethod;
 	}
 
 	function colourWrap( _text, _colour )
@@ -67,6 +58,26 @@
 		_parentArray.push(entry);
 	}
 
+	function createInclusiveLinearSequence( _start, _end, _step = 1 )
+	{
+		local sequence = [];
+
+		for( local i = _start; i <= _end; i += _step )
+		{
+			sequence.push(i);
+		}
+
+		return sequence;
+	}
+
+	function extendArrayWithTableValues( _table, _targetArray )
+	{
+		foreach( key, value in _table )
+		{
+			_targetArray.push(value);
+		}
+	}
+
 	function extendTable( _table, _targetTable )
 	{
 		foreach( key, value in _table )
@@ -75,13 +86,13 @@
 		}
 	}
 
-	function getArrayAsList( _array )
+	function getArrayAsList( _array, _separatorString = ", " )
 	{
 		local list = "";
 
 		foreach( entry in _array )
 		{
-			list = this.appendToStringList(entry, list);
+			list = this.appendToStringList(entry, list, _separatorString);
 		}
 
 		return list;
@@ -134,6 +145,23 @@
 		return returnArray;
 	}
 
+	function getNearestTen( _integer, _roundUp = false )
+	{
+		local naiveValue = ::Math.round(_integer / 10) * 10;
+
+		if (_roundUp && naiveValue <= _integer)
+		{
+			return naiveValue + 10;
+		}
+
+		return naiveValue;
+	}
+
+	function getNormalisedParameter(  _parameterKey, _normalisationFactor = 100.0 )
+	{
+		return (this.getParameter(_parameterKey) / _normalisationFactor);
+	}
+
 	function getParameter( _parameterID )
 	{
 		if (::AR.Manager.isMSUInstalled())
@@ -159,11 +187,6 @@
 		return (this.getParameter(_parameterID) / 100.0);
 	}
 
-	function getProcedures()
-	{
-		return ::AR.Database.getField("Generic", "Procedures");
-	}
-
 	function getPlayerByID( _playerID )
 	{
 		local roster = ::World.getPlayerRoster().getAll();
@@ -181,20 +204,22 @@
 		return null;
 	}
 
+	function getTotalWeight( _weightedArray )
+	{
+		local totalWeight = 0;
+
+		foreach( index, table in _weightedArray )
+		{
+			totalWeight += table.Weight;
+		}
+
+		return totalWeight;
+	}
+
 	function getListAsArray( _string )
 	{
 		local entries = split(_string, ", ");
 		return entries;
-	}
-
-	function includeFiles( _path )
-	{
-		local filePaths = ::IO.enumerateFiles(_path);
-
-		foreach( file in filePaths )
-		{
-			::include(file);
-		}
 	}
 
 	function incrementFlag( _string, _value, _object, _isNative = false )
@@ -247,11 +272,34 @@
 	{
 		if (_isError)
 		{
-			::logError(format("[AR] %s", _string));
+			::logError(format("[Parameters] %s", _string));
 			return;
 		}
 
-		::logInfo(format("[AR] %s", _string));
+		::logInfo(format("[Parameters] %s", _string));
+	}
+
+	function mapIntegerToAlphabet( _integer )
+	{
+		# Counting up from the ASCII equivalent of the letter "A".
+		local ASCIIValue = 64 + _integer;
+		return ASCIIValue.tochar();
+	}
+
+	function pickFromWeightedArray( _weightedArray )
+	{
+		local cumulativeWeight = 0;
+		local randomNumber = ::Math.rand(0, this.getTotalWeight(_weightedArray));
+
+		foreach( index, table in _weightedArray )
+		{
+			cumulativeWeight += table.Weight;
+
+			if (cumulativeWeight >= randomNumber)
+			{
+				return table;
+			}
+		}
 	}
 
 	function push( _object, _targetArray )
@@ -271,16 +319,9 @@
 		_targetArray.extend(entry);
 	}
 
-	function replaceSubstring( _substring, _newSubstring, _targetString )
+	function randomFloat( _minFloat, _maxFloat )
 	{
-		local startIndex = _targetString.find(_substring);
-
-		if (startIndex == null)
-		{
-			return _targetString;
-		}
-
-		return format("%s%s%s", _targetString.slice(0, startIndex), _newSubstring, _targetString.slice(startIndex + _substring.len()));
+		return _minFloat + (1.0 * ::Math.rand() / RAND_MAX) * (_maxFloat - _minFloat);
 	}
 
 	function removeFromArray( _target, _array )
@@ -298,18 +339,16 @@
 		}
 	}
 
-	function shuffleArray( _array )
-	{	# This method uses the Fisher-Yates shuffle algorithm.
-		local sequenceLength = _array.len();
+	function replaceSubstring( _substring, _newSubstring, _targetString )
+	{
+		local startIndex = _targetString.find(_substring);
 
-		for( local i = 0; i < sequenceLength - 1; i++ )
+		if (startIndex == null)
 		{
-			local j = ::Math.rand(i, sequenceLength - 1);
-			local valueA = _array[i];
-			local valueB = _array[j];
-			_array[j] = valueA;
-			_array[i] = valueB;
+			return _targetString;
 		}
+
+		return format("%s%s%s", _targetString.slice(0, startIndex), _newSubstring, _targetString.slice(startIndex + _substring.len()));
 	}
 
 	function setCase( _string, _case )
@@ -322,5 +361,19 @@
 	{
 		local flag = _isNative ? format("%s", _string) : format("%s.%s", ::AR.ID, _string);
 		_object.getFlags().set(flag, _value);
+	}
+
+	function shuffleArray( _array )
+	{	# This method uses the Fisher-Yates shuffle algorithm.
+		local sequenceLength = _array.len();
+
+		for( local i = 0; i < sequenceLength - 1; i++ )
+		{
+			local j = ::Math.rand(i, sequenceLength - 1);
+			local valueA = _array[i];
+			local valueB = _array[j];
+			_array[j] = valueA;
+			_array[i] = valueB;
+		}
 	}
 };

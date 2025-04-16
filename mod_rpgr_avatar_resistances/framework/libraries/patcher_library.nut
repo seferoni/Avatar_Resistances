@@ -29,11 +29,9 @@
 
 	function getMethodFromParent( _object, _parentName, _methodName )
 	{
-		local dummy = function();
-
 		if (_parentName == null)
 		{
-			return dummy;
+			return null;
 		}
 
 		return _object[_parentName][_methodName];
@@ -76,8 +74,8 @@
 	# It is the responsibility of the overriding function to return appropriate arguments.
 	function overrideArguments( _object, _function, _originalMethod, _argumentsArray )
 	{
-		local returnValue = _function.acall(_argumentsArray),
-		newArguments = returnValue == null ? _argumentsArray : this.prependContextObject(_object, returnValue);
+		local returnValue = _function.acall(_argumentsArray);
+		local newArguments = returnValue == null ? _argumentsArray : this.prependContextObject(_object, returnValue);
 		return _originalMethod.acall(newArguments);
 	}
 
@@ -155,6 +153,12 @@
 		{
 			# Assign a reference to the original method.
 			local originalMethod = cachedMethod == null ? ::AR.Patcher.getMethodFromParent(this, parentName, _methodName) : cachedMethod;
+
+			if (originalMethod == null)
+			{
+				::AR.Standard.log(format("Could not fetch the original method for %s, aborting wrap procedure.", _methodName), true);
+				return;
+			}
 
 			if (!::AR.Patcher.validateParameters(originalMethod, vargv))
 			{

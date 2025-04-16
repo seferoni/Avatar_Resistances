@@ -1,4 +1,4 @@
-::AR.Strings.Generic <-
+::AR.Strings.Generic.Common <-
 {
 	CharmResistNotification = "%s resists being charmed owing to a stalwart mind",
 	SleepResistNotification = "%s resists being put to sleep owing to a stalwart mind",

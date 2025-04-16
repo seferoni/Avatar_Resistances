@@ -43,12 +43,17 @@
 
 	function getElementDescription( _elementKey )
 	{
-		return ::AR.Strings.Settings[format("%sDescription", _elementKey)];
+		return this.getStringField(format("%sDescription", _elementKey));
 	}
 
 	function getElementName( _elementKey )
 	{
-		return ::AR.Strings.Settings[format("%sName", _elementKey)];
+		return this.getStringField(format("%sName", _elementKey));
+	}
+
+	function getStringField( _fieldName )
+	{
+		return ::AR.Strings.getField("Settings", "Common")[_fieldName];
 	}
 
 	function initialise()

@@ -1,4 +1,4 @@
-::AR.Strings.Settings <-
+::AR.Strings.Settings.Common <-
 {
 	PageCommonName = "Common",
 
@@ -9,8 +9,8 @@
 	SleepResistChanceDescription = "Percentage chance for player characters to resist sleep attempts. This does not modify the behaviour of vanilla Resolve checks caused by sleep attempts.",
 
 	RosterMaxName = "Roster Threshold",
-	RosterMaxDescription = "Determines the company size threshold above which the player character loses resistances provided by Avatar Resistances.",
+	RosterMaxDescription = "Determines the company size threshold above which the player character loses resistances provided by AR.",
 
 	ModifyTooltipName = "Modify Tooltip",
-	ModifyTooltipDescription = "Determines whether the player character trait tooltip is amended to reflect resistances provided by Avatar Resistances."
+	ModifyTooltipDescription = "Determines whether the player character trait tooltip is amended to reflect resistances provided by AR."
 };
