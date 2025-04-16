@@ -7,12 +7,12 @@
 			return;
 		}
 
-		if (!::AR.Resistances.isWithinRosterThreshold())
+		if (!::AR.Utilities.isWithinRosterThreshold())
 		{
 			return;
 		}
 
-		_tooltipArray.extend(::AR.Resistances.createTooltipEntries());
+		_tooltipArray.extend(::AR.TooltipHandler.createTooltipEntries());
 		return _tooltipArray;
 	});
 });

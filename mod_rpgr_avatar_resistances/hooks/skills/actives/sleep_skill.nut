@@ -2,7 +2,7 @@
 {
 	::AR.Patcher.wrap(p, "onDelayedEffect", function( _tag )
 	{
-		if (!::AR.Resistances.isWithinRosterThreshold())
+		if (!::AR.Utilities.isWithinRosterThreshold())
 		{
 			return;
 		}
@@ -12,22 +12,31 @@
 			return;
 		}
 
+		if (!("TargetTile" in _tag) || _tag.TargetTile == null )
+		{
+			::AP.Standard.log("Could not fetch target tile information on sleep attempt.", true);
+			return;
+		}
+
 		local target = _tag.TargetTile.getEntity();
 
 		if (target == null)
 		{
+			::AP.Standard.log("Could not fetch target information on sleep attempt.", true);
 			return;
 		}
 
-		if (!::AR.Resistances.isActorViable(target))
+		if (!::AR.Utilities.isActorViable(target))
 		{
 			return;
 		}
 
-		if (!_tag.User.isHiddenToPlayer() && !target.isHiddenToPlayer())
+		if (_tag.User.isHiddenToPlayer() || target.isHiddenToPlayer())
 		{
-			::Tactical.EventLog.log(format(::AR.Strings.Generic.SleepResistNotification, ::Const.UI.getColorizedEntityName(target)));
-			return ::AR.Internal.TERMINATE;
+			return;
 		}
+
+		::Tactical.EventLog.log(format(::AR.Strings.Generic.SleepResistNotification, ::Const.UI.getColorizedEntityName(target)));
+		return ::AR.Internal.TERMINATE;
 	}, "overrideMethod");
 });

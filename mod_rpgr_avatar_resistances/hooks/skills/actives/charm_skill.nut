@@ -2,7 +2,7 @@
 {
 	::AR.Patcher.wrap(p, "onDelayedEffect", function( _tag )
 	{
-		if (!::AR.Resistances.isWithinRosterThreshold())
+		if (!::AR.Utilities.isWithinRosterThreshold())
 		{
 			return;
 		}
@@ -12,29 +12,13 @@
 			return;
 		}
 
-		local target = _tag.TargetTile.getEntity();
-
-		if (target == null)
+		if (!("TargetTile" in _tag) || _tag.TargetTile == null)
 		{
+			::AP.Standard.log("Could not fetch target tile information on charm attempt.", true);
 			return;
 		}
 
-		if (!::AR.Resistances.isActorViable(target))
-		{
-			return;
-		}
-
-		# The code below is adapted closely from the vanilla method.
-		local user = _tag.User;
-		local time = ::Tactical.spawnProjectileEffect("effect_heart_01", user.getTile(), _tag.TargetTile, 0.33, 2.0, false, false);
-		::Time.scheduleEvent(::TimeUnit.Virtual, time, function( _dummy = null )
-		{
-			if (!user.isHiddenToPlayer() && !target.isHiddenToPlayer())
-			{
-				::Tactical.EventLog.log(format(::AR.Strings.Generic.CharmResistNotification, ::Const.UI.getColorizedEntityName(target)));
-			}
-		}.bindenv(this), null);
-
+		::AR.Skills.spawnCharmProjectileEffect(_tag.User, _tag.TargetTile);
 		return false;
 	}, "overrideMethod");
 });

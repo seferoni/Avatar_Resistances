@@ -1,4 +1,4 @@
-::AR.Resistances <-
+::AR.TooltipHandler <-
 {
 	function createTooltipEntries()
 	{
@@ -15,9 +15,9 @@
 	{
 		local chance = ::AR.Standard.getParameter("CharmResistChance");
 		return ::AR.Standard.constructEntry
-		(	// TODO: ensure these index the right string keys
+		(
 			"Special",
-			format(::AR.Strings.Generic.CharmResistChanceTooltip, ::AR.Standard.colourWrap(chance, ::AR.Standard.Colour.Green))
+			format(::AR.Utilities.getStringField("CharmResistChanceTooltip"), ::AR.Standard.colourWrap(chance, ::AR.Standard.Colour.Green))
 		);
 	}
 
@@ -27,7 +27,7 @@
 		return ::AR.Standard.constructEntry
 		(
 			"Special",
-			format(::AR.Strings.Generic.SleepResistChanceTooltip, ::AR.Standard.colourWrap(chance, ::AR.Standard.Colour.Green))
+			format(::AR.Utilities.getStringField("SleepResistChanceTooltip"), ::AR.Standard.colourWrap(chance, ::AR.Standard.Colour.Green))
 		);
 	}
 
@@ -37,17 +37,7 @@
 		return ::AR.Standard.constructEntry
 		(
 			"Warning",
-			format(::AR.Strings.Generic.RosterThresholdTooltip, ::AR.Standard.colourWrap(threshold, ::AR.Standard.Colour.Red))
+			format(::AR.Utilities.getStringField("RosterThresholdTooltip"), ::AR.Standard.colourWrap(threshold, ::AR.Standard.Colour.Red))
 		)
-	}
-
-	function isActorViable( _actor )
-	{
-		return ::AR.Standard.getFlag("IsPlayerCharacter", _actor);
-	}
-
-	function isWithinRosterThreshold()
-	{
-		return ::World.getPlayerRoster().getAll().len() <= ::AR.Standard.getParameter("RosterMax");
 	}
 };
