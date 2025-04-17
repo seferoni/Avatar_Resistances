@@ -83,6 +83,6 @@
 
 	function loadFolder( _path )
 	{
-		::AR.Manager.includeFiles(format("mod_rpgr_parameters/framework/strings/%s", _path));
+		::AR.Manager.includeFiles(format("mod_rpgr_avatar_resistances/framework/strings/%s", _path));
 	}
 };

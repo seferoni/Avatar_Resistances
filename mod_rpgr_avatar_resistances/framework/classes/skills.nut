@@ -29,7 +29,7 @@
 				return;
 			}
 
-			::Tactical.EventLog.log(format(::AR.Utilities.getStringField("CharmResistNotification"), ::Const.UI.getColorizedEntityName(target)));
+			::Tactical.EventLog.log(format(::AR.Utilities.getString("CharmResistNotification"), ::Const.UI.getColorizedEntityName(target)));
 		}.bindenv(this), null);
 	}
 };

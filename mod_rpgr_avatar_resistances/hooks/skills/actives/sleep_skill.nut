@@ -36,7 +36,7 @@
 			return;
 		}
 
-		::Tactical.EventLog.log(format(::AR.Strings.Generic.SleepResistNotification, ::Const.UI.getColorizedEntityName(target)));
+		::Tactical.EventLog.log(format(::AR.Utilities.getString("SleepResistNotification"), ::Const.UI.getColorizedEntityName(target)));
 		return ::AR.Internal.TERMINATE;
 	}, "overrideMethod");
 });

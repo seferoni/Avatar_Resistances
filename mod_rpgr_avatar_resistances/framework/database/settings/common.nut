@@ -20,6 +20,6 @@
 	},
 	ModifyTooltip =
 	{
-		Default = true
+		Default = false
 	}
 };

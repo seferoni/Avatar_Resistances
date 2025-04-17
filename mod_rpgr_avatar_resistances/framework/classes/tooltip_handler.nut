@@ -17,7 +17,7 @@
 		return ::AR.Standard.constructEntry
 		(
 			"Special",
-			format(::AR.Utilities.getStringField("CharmResistChanceTooltip"), ::AR.Standard.colourWrap(chance, ::AR.Standard.Colour.Green))
+			format(::AR.Utilities.getString("CharmResistChanceTooltip"), ::AR.Standard.colourWrap(chance, ::AR.Standard.Colour.Green))
 		);
 	}
 
@@ -27,7 +27,7 @@
 		return ::AR.Standard.constructEntry
 		(
 			"Special",
-			format(::AR.Utilities.getStringField("SleepResistChanceTooltip"), ::AR.Standard.colourWrap(chance, ::AR.Standard.Colour.Green))
+			format(::AR.Utilities.getString("SleepResistChanceTooltip"), ::AR.Standard.colourWrap(chance, ::AR.Standard.Colour.Green))
 		);
 	}
 
@@ -37,7 +37,7 @@
 		return ::AR.Standard.constructEntry
 		(
 			"Warning",
-			format(::AR.Utilities.getStringField("RosterThresholdTooltip"), ::AR.Standard.colourWrap(threshold, ::AR.Standard.Colour.Red))
+			format(::AR.Utilities.getString("RosterThresholdTooltip"), ::AR.Standard.colourWrap(threshold, ::AR.Standard.Colour.Red))
 		)
 	}
 };
