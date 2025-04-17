@@ -10,9 +10,19 @@
 		return ::AR.Strings.getField("Generic", _fieldName);
 	}
 
-	function isActorViable( _actor )
+	function isActorViableForResistances( _actorObject )
 	{
-		return ::AR.Standard.getFlag("IsPlayerCharacter", _actor);
+		if (!_actorObject.getSkills().hasSkill("trait.player"))
+		{
+			return false;
+		}
+
+		if (!::AR.Standard.getFlag("IsPlayerCharacter", _actorObject))
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	function isWithinRosterThreshold()

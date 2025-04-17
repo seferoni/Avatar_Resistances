@@ -12,13 +12,14 @@
 			return;
 		}
 
-		if (!("TargetTile" in _tag) || _tag.TargetTile == null)
+		local target = ::AR.Skills.fetchAndValidateTargetOnDelayedEffect(_tag);
+
+		if (target == null)
 		{
-			::AP.Standard.log("Could not fetch target tile information on charm attempt.", true);
 			return;
 		}
 
-		::AR.Skills.spawnCharmProjectileEffect(_tag.User, _tag.TargetTile);
+		::AR.Skills.spawnCharmProjectileEffect(_tag.User, target, _tag.TargetTile);
 		return false;
 	}, "overrideMethod");
 });

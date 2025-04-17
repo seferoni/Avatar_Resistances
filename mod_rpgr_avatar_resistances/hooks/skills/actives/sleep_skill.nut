@@ -12,21 +12,9 @@
 			return;
 		}
 
-		if (!("TargetTile" in _tag) || _tag.TargetTile == null )
-		{
-			::AP.Standard.log("Could not fetch target tile information on sleep attempt.", true);
-			return;
-		}
-
-		local target = _tag.TargetTile.getEntity();
+		local target = ::AR.Skills.fetchAndValidateTargetOnDelayedEffect(_tag);
 
 		if (target == null)
-		{
-			::AP.Standard.log("Could not fetch target information on sleep attempt.", true);
-			return;
-		}
-
-		if (!::AR.Utilities.isActorViable(target))
 		{
 			return;
 		}
