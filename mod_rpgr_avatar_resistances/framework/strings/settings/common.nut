@@ -12,5 +12,8 @@
 	RosterMaxDescription = "Determines the company size threshold above which the player character loses resistances provided by AR.",
 
 	ModifyTooltipName = "Modify Tooltip",
-	ModifyTooltipDescription = "Determines whether the player character trait tooltip is amended to reflect resistances provided by AR."
+	ModifyTooltipDescription = "Determines whether the player character trait tooltip is amended to reflect AR-associated properties. By default, this will display roster size threshold information.",
+
+	VerboseTooltipName = "Verbose Tooltip",
+	VerboseTooltipDescription = "Determines whether the charm and sleep resist chances are also displayed on the player character trait tooltip. Does nothing if Modify Tooltip is disabled."
 };

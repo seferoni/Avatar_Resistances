@@ -1,5 +1,10 @@
 ::AR.Utilities <-
 {
+	function getCurrentRosterSize()
+	{
+		return ::World.getPlayerRoster().getAll().len();
+	}
+
 	function getString( _fieldName )
 	{
 		return this.getStringField("Common")[_fieldName];
@@ -27,6 +32,6 @@
 
 	function isWithinRosterThreshold()
 	{
-		return ::World.getPlayerRoster().getAll().len() <= ::AR.Standard.getParameter("RosterMax");
+		return this.getCurrentRosterSize() <= ::AR.Standard.getParameter("RosterMax");
 	}
 };

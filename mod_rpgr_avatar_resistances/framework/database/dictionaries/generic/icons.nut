@@ -1,5 +1,6 @@
 ::AR.Database.Generic.Icons <-
 {
-	Special = "ui/icons/perks.png",
+	Positive = "ui/tooltips/positive.png",
+	Special = "ui/icons/special.png",
 	Warning = "ui/icons/warning.png"
 };

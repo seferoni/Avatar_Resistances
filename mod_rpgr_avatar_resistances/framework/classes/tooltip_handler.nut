@@ -5,8 +5,12 @@
 		local entries = [];
 		local push = @(_entry) ::AR.Standard.push(_entry, entries);
 
-		push(this.createCharmResistEntry());
-		push(this.createSleepResistEntry());
+		if (::AR.Standard.getParameter("VerboseTooltip"))
+		{
+			push(this.createCharmResistEntry());
+			push(this.createSleepResistEntry());
+		}
+
 		push(this.createTutorialEntry());
 		return entries;
 	}
@@ -33,11 +37,20 @@
 
 	function createTutorialEntry()
 	{
-		local threshold = ::AR.Standard.getParameter("RosterMax");
+		local sizeDifference = ::AR.Standard.getParameter("RosterMax") - ::AR.Utilities.getCurrentRosterSize();
+		local tooltipText = format(::AR.Utilities.getString("RosterThresholdTooltip"), ::AR.Standard.colourWrap(sizeDifference, ::AR.Standard.Colour.Red));
+		local icon = "Positive";
+
+		if (sizeDifference == 1)
+		{
+			icon = "Warning";
+			tooltipText = ::AR.Standard.colourWrap(::AR.Utilities.getString("RosterThresholdTooltipSingular"), ::AR.Standard.Colour.Red);
+		}
+
 		return ::AR.Standard.constructEntry
 		(
-			"Warning",
-			format(::AR.Utilities.getString("RosterThresholdTooltip"), ::AR.Standard.colourWrap(threshold, ::AR.Standard.Colour.Red))
-		)
+			icon,
+			tooltipText
+		);
 	}
 };

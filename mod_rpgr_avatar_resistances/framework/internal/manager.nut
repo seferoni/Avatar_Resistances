@@ -110,11 +110,11 @@
 
 		if (this.isModernHooksInstalled())
 		{
-			::AR.Interfaces.ModernHooks.queue(">mod_msu", queued);
+			::AR.Interfaces.ModernHooks.queue(">mod_msu", ">mod_legends", ">mod_reforged", queued);
 			return;
 		}
 
-		::mods_queue(::AR.ID, ">mod_msu", queued);
+		::mods_queue(::AR.ID, ">mod_msu, >mod_legends, >mod_reforged", queued);
 	}
 
 	function register()

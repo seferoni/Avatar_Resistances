@@ -21,5 +21,9 @@
 	ModifyTooltip =
 	{
 		Default = false
+	},
+	VerboseTooltip =
+	{
+		Default = false
 	}
 };
