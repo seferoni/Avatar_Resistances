@@ -16,7 +16,7 @@
 			return null;
 		}
 
-		if (!::AR.Utilities.isActorViableForResistances(target))
+		if (!::AR.Utilities.isActorPlayerCharacter(target))
 		{
 			return null;
 		}

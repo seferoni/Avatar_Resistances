@@ -15,7 +15,7 @@
 		return ::AR.Strings.getField("Generic", _fieldName);
 	}
 
-	function isActorViableForResistances( _actorObject )
+	function isActorPlayerCharacter( _actorObject )
 	{
 		if (!_actorObject.getSkills().hasSkill("trait.player"))
 		{
