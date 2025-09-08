@@ -8,7 +8,7 @@
 	},
 	SleepResistChance =
 	{
-		Default = 60,
+		Default = 100,
 		Range = [0, 100],
 		Interval = 5
 	},
@@ -20,10 +20,10 @@
 	},
 	ModifyTooltip =
 	{
-		Default = false
+		Default = true
 	},
 	VerboseTooltip =
 	{
-		Default = false
+		Default = true
 	}
 };
