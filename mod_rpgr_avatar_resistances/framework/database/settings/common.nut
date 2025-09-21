@@ -8,7 +8,7 @@
 	},
 	SleepResistChance =
 	{
-		Default = 100,
+		Default = 75,
 		Range = [0, 100],
 		Interval = 5
 	},
