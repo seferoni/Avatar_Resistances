@@ -6,5 +6,5 @@
 	CharmResistChanceTooltip = "%s%% chance to resist Charm attempts.",
 	SleepResistChanceTooltip = "%s%% chance to resist Sleep attempts.",
 	RosterThresholdTooltip = "Innate resistances forfeited when %s more brothers join the company.",
-	RosterThresholdTooltipSingular = "Innate resistances lost if another brother joins the company.",
+	RosterThresholdTooltipBaseline = "Innate resistances lost if another brother joins the company.",
 };

@@ -272,11 +272,11 @@
 	{
 		if (_isError)
 		{
-			::logError(format("[Parameters] %s", _string));
+			::logError(format("[AR] %s", _string));
 			return;
 		}
 
-		::logInfo(format("[Parameters] %s", _string));
+		::logInfo(format("[AR] %s", _string));
 	}
 
 	function mapIntegerToAlphabet( _integer )

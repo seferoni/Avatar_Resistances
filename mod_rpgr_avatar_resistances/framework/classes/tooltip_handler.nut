@@ -37,19 +37,17 @@
 
 	function createTutorialEntry()
 	{
-		local sizeDifference = ::AR.Standard.getParameter("RosterMax") - ::AR.Utilities.getCurrentRosterSize();
-		local tooltipText = format(::AR.Utilities.getString("RosterThresholdTooltip"), ::AR.Standard.colourWrap(sizeDifference, ::AR.Standard.Colour.Red));
-		local icon = "Positive";
+		local rosterDifferential = ::AR.Standard.getParameter("RosterMax") - ::AR.Utilities.getCurrentRosterSize();
+		local tooltipText = format(::AR.Utilities.getString("RosterThresholdTooltip"), ::AR.Standard.colourWrap(rosterDifferential + 1, ::AR.Standard.Colour.Red));
 
-		if (sizeDifference == 1)
+		if (rosterDifferential == 0)
 		{
-			icon = "Warning";
-			tooltipText = ::AR.Standard.colourWrap(::AR.Utilities.getString("RosterThresholdTooltipSingular"), ::AR.Standard.Colour.Red);
+			tooltipText = ::AR.Standard.colourWrap(::AR.Utilities.getString("RosterThresholdTooltipBaseline"), ::AR.Standard.Colour.Red);
 		}
 
 		return ::AR.Standard.constructEntry
 		(
-			icon,
+			"Warning",
 			tooltipText
 		);
 	}

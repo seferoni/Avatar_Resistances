@@ -4,7 +4,7 @@
 	{
 		if (!("TargetTile" in _effectTable) || _effectTable.TargetTile == null )
 		{
-			::AP.Standard.log("Could not fetch target tile information.", true);
+			::AR.Standard.log("Could not fetch target tile information.", true);
 			return null;
 		}
 
@@ -12,7 +12,7 @@
 
 		if (target == null)
 		{
-			::AP.Standard.log("Could not fetch target information.", true);
+			::AR.Standard.log("Could not fetch target information.", true);
 			return null;
 		}
 
