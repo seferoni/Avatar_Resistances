@@ -12,7 +12,7 @@
 		Range = [0, 100],
 		Interval = 5
 	},
-	RosterMax =
+	RosterThreshold =
 	{
 		Default = 6,
 		Range = [1, 27],

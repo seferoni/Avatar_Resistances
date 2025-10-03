@@ -32,6 +32,6 @@
 
 	function isWithinRosterThreshold()
 	{
-		return this.getCurrentRosterSize() <= ::AR.Standard.getParameter("RosterMax");
+		return this.getCurrentRosterSize() <= ::AR.Standard.getParameter("RosterThreshold");
 	}
 };

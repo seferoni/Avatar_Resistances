@@ -37,7 +37,7 @@
 
 	function createTutorialEntry()
 	{
-		local rosterDifferential = ::AR.Standard.getParameter("RosterMax") - ::AR.Utilities.getCurrentRosterSize();
+		local rosterDifferential = ::AR.Standard.getParameter("RosterThreshold") - ::AR.Utilities.getCurrentRosterSize();
 		local tooltipText = format(::AR.Utilities.getString("RosterThresholdTooltip"), ::AR.Standard.colourWrap(rosterDifferential + 1, ::AR.Standard.Colour.Red));
 
 		if (rosterDifferential == 0)
